@@ -16,7 +16,7 @@ def add_to_cart(user_id, product_id):
     quantity = request.json.get('quantity')  
     cart = carts.get(user_id, [])
     
-    product_response = requests.get(f'http://localhost:5000/products/{product_id}')
+    product_response = requests.get(f'https://productservice-3b69.onrender.com/products/{product_id}')
 
     if product_response.status_code == 404:
         return jsonify({"error": "Product not found"}), 404
@@ -36,7 +36,7 @@ def add_to_cart(user_id, product_id):
         "quantity": new_quantity
     }
 
-    requests.post(f'http://localhost:5000/products', json=new_product)
+    requests.post(f'https://productservice-3b69.onrender.com/products', json=new_product)
 
     existing_product = next((item for item in cart if item["id"] == product_id), None)
     
@@ -80,7 +80,7 @@ def remove_from_cart(user_id, product_id):
 
     carts[user_id] = cart
 
-    product_response = requests.get(f'http://localhost:5000/products/{product_id}')
+    product_response = requests.get(f'https://productservice-3b69.onrender.com/products/{product_id}')
     product = product_response.json()
     amount_in_stock = product['product']['quantity']
 
@@ -92,7 +92,7 @@ def remove_from_cart(user_id, product_id):
         "quantity": new_quantity
     }
 
-    requests.post(f'http://localhost:5000/products', json=new_product)
+    requests.post(f'https://productservice-3b69.onrender.com/products', json=new_product)
 
     return jsonify({"message": "Product removed from cart", "cart": cart}), 200
 
